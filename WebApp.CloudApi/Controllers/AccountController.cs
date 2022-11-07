@@ -45,6 +45,8 @@ public class AccountController : ControllerBase
         {
             try
             {
+                string connectionString = $"Host={GlobalData.Application.Where(s => s.Key == "Database").FirstOrDefault().Value};Database={GlobalData.Application.Where(s => s.Key == "DatabaseName").FirstOrDefault().Value};Port={GlobalData.Application.Where(s => s.Key == "DatabasePort").FirstOrDefault().Value};Username={GlobalData.Application.Where(s => s.Key == "MasterUsername").FirstOrDefault().Value};Password={GlobalData.Application.Where(s => s.Key == "MasterPassword").FirstOrDefault().Value};";
+                _logger.LogInformation(connectionString);
                 var existingAccount = _db.GetAccount(account.Email);
                 if (existingAccount.Email == account.Email)
                 {
