@@ -36,14 +36,11 @@ GlobalData.Application.Add(new KeyValuePair<string, string>("BucketName", builde
 // {
 //     options.UseNpgsql("Host=testdb1.cbd0o3qojchd.us-east-1.rds.amazonaws.com;Database=postgrestest;Port=5432;Username=postgres;Password=postgres;");
 // });
+string connectionString = $"Host={GlobalData.Application.Where(s => s.Key == "Database").FirstOrDefault().Value};Database={GlobalData.Application.Where(s => s.Key == "DatabaseName").FirstOrDefault().Value};Port={GlobalData.Application.Where(s => s.Key == "DatabasePort").FirstOrDefault().Value};Username={GlobalData.Application.Where(s => s.Key == "MasterUsername").FirstOrDefault().Value};Password={GlobalData.Application.Where(s => s.Key == "MasterPassword").FirstOrDefault().Value};";
+Console.WriteLine(connectionString);
 builder.Services.AddDbContext<EF_DataContext>(options =>
 {
-    options.UseNpgsql("Host=" +
-        GlobalData.Application.Where(s => s.Key == "Database").FirstOrDefault().Value +
-        ";Database=" + GlobalData.Application.Where(s => s.Key == "DatabaseName").FirstOrDefault().Value +
-        ";Port=" + GlobalData.Application.Where(s => s.Key == "DatabasePort").FirstOrDefault().Value +
-        ";Username=" + GlobalData.Application.Where(s => s.Key == "MasterUsername").FirstOrDefault().Value + ";Password=" +
-        GlobalData.Application.Where(s => s.Key == "MasterPassword").FirstOrDefault().Value);
+    options.UseNpgsql(connectionString);
 });
 // builder.Services.AddDbContext<EF_DataContext>(
 //     o => o.UseNpgsql("Server=" + builder.Configuration["Database"] +";Database=" + builder.Configuration["DatabaseName"]
